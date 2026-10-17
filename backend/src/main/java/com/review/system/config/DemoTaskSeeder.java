@@ -18,7 +18,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * 启动时维护演示评审任务（名称以【演示】开头），便于答辩演示。
+ * 启动时维护演示评审任务（名称以【演示】开头）。
  */
 @Slf4j
 @Component

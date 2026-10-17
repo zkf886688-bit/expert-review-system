@@ -11,7 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- * 生成答辩用专家导入 Excel：mvn -s ../maven-settings.xml -Dtest=GenerateExpertImportXlsxTest test
+ * 生成专家导入示例 Excel：mvn -s ../maven-settings.xml -Dtest=GenerateExpertImportXlsxTest test
  */
 class GenerateExpertImportXlsxTest {
 

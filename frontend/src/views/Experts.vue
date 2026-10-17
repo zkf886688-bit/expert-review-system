@@ -66,7 +66,7 @@
         </el-table>
         <EmptyGuide
           v-else-if="!loading"
-          description="专家库为空，可手动新增或导入 Excel（答辩演示可用 demo/expert_import_10.xlsx）"
+          description="暂无专家记录，请新增专家或导入 Excel"
           action-text="新增专家"
           icon="users"
           @action="openDialog()"

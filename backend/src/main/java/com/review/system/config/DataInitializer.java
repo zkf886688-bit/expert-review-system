@@ -158,7 +158,7 @@ public class DataInitializer implements CommandLineRunner {
         }
     }
 
-    /** 答辩演示：保留 Excel 导入的专家，仅重置进行中演示任务的分配。 */
+    /** 保留 Excel 导入的专家，重置进行中演示任务的分配。 */
     private void prepareLiveExpertDemo() {
         demoTaskSeeder.clearLiveDemoAssignments();
         log.debug("演示模式：专家请使用 demo/expert_import_10.xlsx 导入，expert1 将自动绑定库内首位专家");

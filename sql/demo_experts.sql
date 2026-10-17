@@ -1,4 +1,4 @@
--- 演示专家（仅开发/答辩用）。若后端 seed 未生效，可手动执行：
+-- 演示专家（仅用于开发测试）。若后端 seed 未生效，可手动执行：
 -- mysql -u root -p expert_review < sql/demo_experts.sql
 
 INSERT INTO expert (name, gender, organization, title, phone, email, region, org_type, fields, tags, status, review_count, on_time_rate)
