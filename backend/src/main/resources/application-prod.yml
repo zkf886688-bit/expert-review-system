@@ -1,0 +1,115 @@
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+
+spring:
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    baseline-version: 0
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/expert_review?useUnicode=true&characterEncoding=UTF-8&connectionCollation=utf8mb4_unicode_ci&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=true}
+    username: ${DB_USER:root}
+    password: ${DB_PASSWORD:root}
+    hikari:
+      connection-init-sql: SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci
+  mail:
+    host: ${MAIL_HOST:}
+    port: ${MAIL_PORT:465}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: ${MAIL_STARTTLS:false}
+          ssl:
+            enable: ${MAIL_SSL:true}
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+
+app:
+  demo:
+    reset-passwords: false
+    seed-experts: false
+    seed-tasks: false
+  cors:
+    allowed-origin-patterns: ${CORS_ALLOWED_ORIGIN_PATTERNS:https://localhost,https://127.0.0.1}
+  error:
+    expose-details: false
+  auth:
+    lockout:
+      enabled: ${AUTH_LOCKOUT_ENABLED:true}
+      max-attempts: ${AUTH_LOCKOUT_MAX_ATTEMPTS:5}
+      lock-minutes: ${AUTH_LOCKOUT_LOCK_MINUTES:15}
+  pii:
+    encryption-key: ${PII_ENCRYPTION_KEY:}
+  jwt:
+    secret: ${JWT_SECRET:ChangeMeInProductionUseLongRandomSecretKey2026}
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000}
+  captcha:
+    redis-enabled: ${CAPTCHA_REDIS_ENABLED:false}
+  upload:
+    dir: ${UPLOAD_DIR:./uploads}
+  expert:
+    inactive-enabled: ${EXPERT_INACTIVE_ENABLED:true}
+    inactive-years: ${EXPERT_INACTIVE_YEARS:3}
+    inactive-cron: ${EXPERT_INACTIVE_CRON:0 0 1 * * ?}
+  mail:
+    enabled: ${MAIL_ENABLED:false}
+    from: ${MAIL_FROM:noreply@review.local}
+  sms:
+    enabled: ${SMS_ENABLED:false}
+    provider: ${SMS_PROVIDER:mock}
+    aliyun:
+      access-key-id: ${ALIYUN_SMS_ACCESS_KEY_ID:}
+      access-key-secret: ${ALIYUN_SMS_ACCESS_KEY_SECRET:}
+      sign-name: ${ALIYUN_SMS_SIGN_NAME:}
+      template-code: ${ALIYUN_SMS_TEMPLATE_CODE:}
+      template-param-key: ${ALIYUN_SMS_TEMPLATE_PARAM_KEY:content}
+    tencent:
+      secret-id: ${TENCENT_SMS_SECRET_ID:}
+      secret-key: ${TENCENT_SMS_SECRET_KEY:}
+      sdk-app-id: ${TENCENT_SMS_SDK_APP_ID:}
+      sign-name: ${TENCENT_SMS_SIGN_NAME:}
+      template-id: ${TENCENT_SMS_TEMPLATE_ID:}
+      template-param-key: ${TENCENT_SMS_TEMPLATE_PARAM_KEY:content}
+      region: ${TENCENT_SMS_REGION:ap-guangzhou}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    health:
+      show-details: never
+    prometheus:
+      enabled: true
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+  health:
+    mail:
+      enabled: false
+    redis:
+      enabled: ${app.captcha.redis-enabled:false}
+    diskspace:
+      path: ${app.upload.dir:./uploads}
+      threshold: 100MB
+
+info:
+  app:
+    phase: 19
+
+server:
+  forward-headers-strategy: framework

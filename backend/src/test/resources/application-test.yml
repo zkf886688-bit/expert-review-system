@@ -1,0 +1,83 @@
+spring:
+  flyway:
+    enabled: false
+  datasource:
+    url: jdbc:h2:mem:expert_review;MODE=MySQL;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+    hikari:
+      connection-init-sql: SELECT 1
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema-test.sql
+  task:
+    scheduling:
+      enabled: false
+  mail:
+    host: localhost
+    port: 1025
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+
+app:
+  jwt:
+    secret: TestSecretKeyForIntegrationTestsMustBeLongEnough2026
+    expiration-ms: 3600000
+  upload:
+    dir: ${java.io.tmpdir}/expert-review-test-uploads
+  demo:
+    seed-experts: false
+    seed-tasks: false
+  captcha:
+    enabled: false
+    redis-enabled: false
+  auth:
+    lockout:
+      enabled: true
+      max-attempts: 5
+      lock-minutes: 15
+  expert:
+    inactive-enabled: false
+  error:
+    expose-details: true
+  mail:
+    enabled: false
+  sms:
+    enabled: false
+    provider: mock
+  sso:
+    mock-enabled: true
+    enabled: false
+
+info:
+  app:
+    phase: 19
+
+logging:
+  level:
+    root: WARN
+    com.review.system: INFO
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    prometheus:
+      enabled: true
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+  health:
+    mail:
+      enabled: false
+    redis:
+      enabled: ${app.captcha.redis-enabled:false}
+    diskspace:
+      enabled: false

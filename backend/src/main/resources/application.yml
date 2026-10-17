@@ -1,0 +1,155 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: expert-review-system
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    baseline-version: 0
+    locations: classpath:db/migration
+  datasource:
+    url: jdbc:mysql://localhost:3306/expert_review?useUnicode=true&characterEncoding=UTF-8&connectionCollation=utf8mb4_unicode_ci&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-init-sql: SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 100MB
+  mail:
+    host: localhost
+    port: 1025
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+
+app:
+  demo:
+    reset-passwords: true
+    seed-experts: false
+    seed-tasks: true
+  cors:
+    allowed-origin-patterns: "*"
+  error:
+    expose-details: true
+  captcha:
+    enabled: true
+    redis-enabled: false
+  auth:
+    lockout:
+      enabled: true
+      max-attempts: 5
+      lock-minutes: 15
+  pii:
+    encryption-key: ${PII_ENCRYPTION_KEY:}
+  jwt:
+    secret: ExpertReviewSystemSecretKey2026Phase1MustBeLongEnough
+    expiration-ms: 86400000
+  upload:
+    dir: ./uploads
+  metrics:
+    refresh-ms: 60000
+  expert:
+    inactive-enabled: true
+    inactive-years: 3
+    inactive-cron: "0 0 1 * * ?"
+  mail:
+    enabled: false
+    from: noreply@review.local
+  sms:
+    enabled: false
+    provider: mock
+    aliyun:
+      access-key-id: ${ALIYUN_SMS_ACCESS_KEY_ID:}
+      access-key-secret: ${ALIYUN_SMS_ACCESS_KEY_SECRET:}
+      sign-name: ${ALIYUN_SMS_SIGN_NAME:}
+      template-code: ${ALIYUN_SMS_TEMPLATE_CODE:}
+      template-param-key: content
+    tencent:
+      secret-id: ${TENCENT_SMS_SECRET_ID:}
+      secret-key: ${TENCENT_SMS_SECRET_KEY:}
+      sdk-app-id: ${TENCENT_SMS_SDK_APP_ID:}
+      sign-name: ${TENCENT_SMS_SIGN_NAME:}
+      template-id: ${TENCENT_SMS_TEMPLATE_ID:}
+      template-param-key: content
+      region: ap-guangzhou
+  notification:
+    templates:
+      invite-title: "评审邀请"
+      invite-content: "您收到评审任务「{taskName}」的项目「{projectName}」邀请，请及时确认。"
+      deadline-title: "评审截止提醒"
+      deadline-content: "任务「{taskName}」将于 {days} 天后截止，请及时完成评审。"
+      overdue-title: "评审已逾期"
+      overdue-content: "任务「{taskName}」已超过截止时间。"
+      return-title: "评审退回修改"
+      return-content: "管理员已将您的评审退回，请修改后重新提交。"
+      applicant-progress-title: "评审进度更新"
+      applicant-progress-content: "您的项目「{projectName}」已有 {submittedCount}/{minReviewers} 位专家提交评审意见。"
+  sso:
+    enabled: false
+    mock-enabled: true
+    frontend-callback-url: http://localhost:5173/login/sso-callback?token={token}
+    oauth2:
+      enabled: false
+      display-name: 企业统一认证
+      client-id: ${SSO_CLIENT_ID:}
+      client-secret: ${SSO_CLIENT_SECRET:}
+      authorization-uri: ${SSO_AUTHORIZATION_URI:}
+      token-uri: ${SSO_TOKEN_URI:}
+      user-info-uri: ${SSO_USER_INFO_URI:}
+      redirect-uri: http://localhost:8080/api/auth/sso/oauth2/callback
+      scope: openid profile email
+      username-attribute: preferred_username
+      email-attribute: email
+      name-attribute: name
+      auto-provision: false
+      default-role: EXPERT
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    health:
+      show-details: when_authorized
+    prometheus:
+      enabled: true
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+  health:
+    mail:
+      enabled: false
+    redis:
+      enabled: ${app.captcha.redis-enabled:false}
+    diskspace:
+      path: ${app.upload.dir:./uploads}
+      threshold: 100MB
+
+info:
+  app:
+    name: 外审专家管理系统
+    version: 1.0.0
+    phase: 19
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html

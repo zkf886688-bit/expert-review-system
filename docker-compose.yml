@@ -1,0 +1,118 @@
+services:
+
+  mysql:
+
+    image: mysql:8.0
+
+    environment:
+
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+
+      MYSQL_DATABASE: expert_review
+
+    ports:
+
+      - "3306:3306"
+
+    volumes:
+
+      - mysql_data:/var/lib/mysql
+
+      - ./sql/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+
+    healthcheck:
+
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${MYSQL_ROOT_PASSWORD:-root}"]
+
+      interval: 10s
+
+      timeout: 5s
+
+      retries: 10
+
+
+
+  backend:
+
+    build:
+
+      context: .
+
+      dockerfile: backend/Dockerfile
+
+    ports:
+
+      - "8080:8080"
+
+    environment:
+
+      SPRING_PROFILES_ACTIVE: docker
+
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+
+      JWT_SECRET: ${JWT_SECRET:-DockerDevSecretKeyChangeInProduction2026LongEnough}
+
+      MAIL_ENABLED: ${MAIL_ENABLED:-false}
+      MAIL_HOST: ${MAIL_HOST:-}
+      MAIL_PORT: ${MAIL_PORT:-465}
+      MAIL_USERNAME: ${MAIL_USERNAME:-}
+      MAIL_PASSWORD: ${MAIL_PASSWORD:-}
+      MAIL_FROM: ${MAIL_FROM:-noreply@review.local}
+      SMS_ENABLED: ${SMS_ENABLED:-false}
+      SMS_PROVIDER: ${SMS_PROVIDER:-mock}
+      ALIYUN_SMS_ACCESS_KEY_ID: ${ALIYUN_SMS_ACCESS_KEY_ID:-}
+      ALIYUN_SMS_ACCESS_KEY_SECRET: ${ALIYUN_SMS_ACCESS_KEY_SECRET:-}
+      ALIYUN_SMS_SIGN_NAME: ${ALIYUN_SMS_SIGN_NAME:-}
+      ALIYUN_SMS_TEMPLATE_CODE: ${ALIYUN_SMS_TEMPLATE_CODE:-}
+      TENCENT_SMS_SECRET_ID: ${TENCENT_SMS_SECRET_ID:-}
+      TENCENT_SMS_SECRET_KEY: ${TENCENT_SMS_SECRET_KEY:-}
+      TENCENT_SMS_SDK_APP_ID: ${TENCENT_SMS_SDK_APP_ID:-}
+      TENCENT_SMS_SIGN_NAME: ${TENCENT_SMS_SIGN_NAME:-}
+      TENCENT_SMS_TEMPLATE_ID: ${TENCENT_SMS_TEMPLATE_ID:-}
+
+    volumes:
+
+      - upload_data:/app/uploads
+
+    depends_on:
+
+      mysql:
+
+        condition: service_healthy
+
+    healthcheck:
+
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+
+      interval: 30s
+
+      timeout: 5s
+
+      retries: 5
+
+      start_period: 60s
+
+
+
+  frontend:
+
+    build: ./frontend
+
+    ports:
+
+      - "80:80"
+
+    depends_on:
+
+      backend:
+
+        condition: service_healthy
+
+
+
+volumes:
+
+  mysql_data:
+
+  upload_data:
+

@@ -1,0 +1,42 @@
+# 依赖与构建产物（体积大，不要上传）
+frontend/node_modules/
+frontend/dist/
+backend/target/
+
+# 本地配置与密钥
+.env
+*.local
+
+# 上传文件（运行时生成）
+backend/uploads/
+uploads/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 日志
+*.log
+
+# Runtime data and local-only configuration
+**/node_modules/
+**/target/
+**/dist/
+**/uploads/
+.env.*
+!.env.example
+**/.env
+*.pem
+*.key
+*.db
+*.sqlite*
+*.xlsx
+*.pdf
+*.docx
+**/playwright-report/
+**/test-results/

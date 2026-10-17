@@ -1,0 +1,57 @@
+/* Lucide icon integration */
+.app-icon {
+  color: currentColor;
+}
+
+.menu-item-icon {
+  margin-right: 10px;
+  opacity: 0.92;
+}
+
+.side-menu .el-menu-item.is-active .menu-item-icon {
+  opacity: 1;
+}
+
+.stat-icon .app-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.input-prefix-icon {
+  color: var(--app-text-secondary);
+}
+
+.empty-state-icon {
+  color: #cbd5e1;
+  margin-bottom: 4px;
+}
+
+.export-bar .app-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.leader-banner .app-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--app-primary);
+}
+
+.header-icon-btn .app-icon {
+  color: var(--app-text-secondary);
+}
+
+.brand-icon .app-icon,
+.logo-icon .app-icon {
+  color: #fff;
+}
+
+.back-btn .app-icon {
+  margin-right: 2px;
+}
+
+.logout-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}

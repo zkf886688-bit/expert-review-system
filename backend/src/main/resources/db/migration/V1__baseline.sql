@@ -1,0 +1,2 @@
+-- Flyway baseline: 完整库结构请使用仓库 sql/schema.sql 与 sql/migration_all.sql 初始化。
+-- 本文件用于在已有库上启用 Flyway 版本管理，不重复建表。
